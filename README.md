@@ -4,8 +4,10 @@ site which has 2 pages, on the first one you can send a notification, and on the
 
     Befor use my site install:
     postgresql 10.3;
-    sqlalchemy;
-    flask.
+    Flask==1.0.2
+    Jinja2==2.10
+    psycopg2==2.7.4
+    SQLAlchemy==1.2.7
 
     Then inside SQL Shell (psql) write queries from postgresql.sql.
   
