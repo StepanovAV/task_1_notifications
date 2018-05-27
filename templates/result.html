@@ -1,0 +1,34 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <button id='send'>send more</button> 
+    {% for i in text %}
+    <div id="message" class="effect1">
+        <div style="float: left; width: 97%">
+            <div class="area2">{{ ((text[loop.index - 1][0] 
+                                    .replace('\n', '<br>')) 
+                                    .replace(' ', '&ensp;')) 
+                                    .replace('\t', '&emsp;') |safe }}
+            </div>
+        </div>
+        <div style="float: right;">
+            <h4>{{ text[loop.index - 1][1] }}</h4>
+        </div>
+    </div>
+    {% endfor %}
+    <a href="#" title="Jump to top" class="topbutton">⮝</a>
+</body>
+<script>
+    document.getElementById("send").onclick = function() {
+        window.location = "/send"
+    }
+</script>
+
+</html>
