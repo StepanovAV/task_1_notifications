@@ -1,5 +1,4 @@
 import os
-
 import sqlalchemy
 from sqlalchemy import Column, Integer, String, Table, select
 
@@ -42,7 +41,7 @@ def messageToDb(table, message, count):
         message and number of its unique words
         into table: "messages"
     '''
-    message = table.insert().values(text=message.strip(), count=int(count))
+    message = table.insert().values(text=message.strip(), count=count)
     con.execute(message)
 
 
