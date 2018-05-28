@@ -1,6 +1,0 @@
-
-CREATE DATABASE notifications;
-
-CREATE USER artem WITH PASSWORD '1111';
-
-GRANT ALL PRIVILEGES ON DATABASE notifications TO artem;
