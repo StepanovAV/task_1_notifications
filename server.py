@@ -1,13 +1,23 @@
+import os
 import json
-from flask import Flask, redirect, render_template, request, url_for, \
-    send_from_directory
-from alchemy_postgresql import messageToDb, messagesFromDb, selectDbTable, \
-    delMessages
-from unique import getCountOfUniqueWords
+from run import *
+from flask import (
+    Flask,
+    redirect,
+    render_template,
+    request,
+    url_for,
+    send_from_directory,
+)
+from alchemy_postgresql import (
+    message_to_db,
+    messages_from_db,
+    select_db_table
+)
+from sqlalchemy.exc import OperationalError 
+from unique import count_of_unique_words
 
 app = Flask(__name__)
-table = selectDbTable()
-# delMessages(table)
 
 
 @app.route('/send')
@@ -19,15 +29,18 @@ def send():
 def upload():
     try:
         message = request.form['input-text']
-        messageToDb(table, message, getCountOfUniqueWords(message))
+        message_to_db(message, count_of_unique_words(message))
         return json.dumps(1), 200
-    except Exception:
-        return json.dumps(0), 500
+    except OperationalError:
+        return json.dumps('OperationalError'), 500
 
 
 @app.route('/result')
 def result():
-    messages = messagesFromDb(table)
+    try:
+        messages = messages_from_db()
+    except OperationalError:
+        messages = [['Database problem, try later', '']]
     return render_template('result.html', text=messages)
 
 
@@ -42,4 +55,6 @@ def page_not_found(e):
     return redirect(url_for('send'))
 
 if __name__ == '__main__':
-    app.run(port=7777, debug=False)
+    port = os.environ['NOTIFICATIONS_APP_PORT']
+    debug = os.environ['NOTIFICATIONS_APP_DEBUG'] == 'TRUE'
+    app.run(port=port, host='0.0.0.0', debug=debug)

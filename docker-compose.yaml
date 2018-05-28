@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - variables.env
+    networks:
+      - hidden_ntw
+    volumes:
+      - /srv/docker/postgresql:/data/db
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: srv
+    container_name: srv
+    env_file:
+      - variables.env
+    networks:
+      - hidden_ntw
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    ports:
+      - "7777:7777"
+    command: python3.6 /app/server.py
+
+networks:
+  hidden_ntw:
+    driver: bridge

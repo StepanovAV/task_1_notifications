@@ -1,7 +1,7 @@
 import re
 
 
-def getCountOfUniqueWords(text):
+def count_of_unique_words(text):
     ''' Returns count of unique words in message
         support: emails; 
                  words with: \'; 
