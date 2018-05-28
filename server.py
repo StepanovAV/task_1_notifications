@@ -1,6 +1,5 @@
 import os
 import json
-from run import *
 from flask import (
     Flask,
     redirect,
