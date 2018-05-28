@@ -1,5 +1,7 @@
+import os
+
 import sqlalchemy
-from sqlalchemy import Table, Column, Integer, String, select, desc, cast
+from sqlalchemy import Column, Integer, String, Table, select
 
 
 def connect():
@@ -7,7 +9,12 @@ def connect():
         connection and a metadata object
     '''
     url = 'postgresql://{}:{}@{}:{}/{}'
-    url = url.format('artem', '1111', 'localhost', 5432, 'notifications')
+    db_user_name = os.environ['DB_USER_NAME'] or 'artem'
+    db_user_password = os.environ['DB_USER_PASSWORD'] or '1111'
+    db_host = os.environ['DB_HOST'] or 'localhost'
+    db_port = os.environ['DB_PORT'] or 5432
+    db_name = os.environ['DB_NAME'] or 'notifications'
+    url = url.format(db_user_name, db_user_password, db_host, db_port, db_name)
     con = sqlalchemy.create_engine(url, client_encoding='utf8')
     meta = sqlalchemy.MetaData(bind=con, reflect=True)
     return con, meta
