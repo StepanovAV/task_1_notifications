@@ -1,5 +1,4 @@
 import json
-import os
 from flask import Flask, redirect, render_template, request, url_for, \
     send_from_directory
 from alchemy_postgresql import messageToDb, messagesFromDb, selectDbTable, \
@@ -7,7 +6,6 @@ from alchemy_postgresql import messageToDb, messagesFromDb, selectDbTable, \
 from unique import getCountOfUniqueWords
 
 app = Flask(__name__)
-
 table = selectDbTable()
 # delMessages(table)
 
@@ -44,4 +42,4 @@ def page_not_found(e):
     return redirect(url_for('send'))
 
 if __name__ == '__main__':
-    app.run(port=7777, debug=True)
+    app.run(port=7777, debug=False)

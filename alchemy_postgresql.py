@@ -8,11 +8,11 @@ def connect():
         connection and a metadata object
     '''
     url = 'postgresql://{}:{}@{}:{}/{}'
-    db_user_name = os.environ['DB_USER_NAME'] or 'artem'
-    db_user_password = os.environ['DB_USER_PASSWORD'] or '1111'
-    db_host = os.environ['DB_HOST'] or 'localhost'
-    db_port = os.environ['DB_PORT'] or 5432
-    db_name = os.environ['DB_NAME'] or 'notifications'
+    db_user_name = os.environ['DB_USER_NAME']
+    db_user_password = os.environ['DB_USER_PASSWORD']
+    db_host = os.environ.get('DB_HOST', 'localhost')
+    db_port = os.environ.get('DB_PORT', 5432)
+    db_name = os.environ.get('DB_NAME', 'notifications')
     url = url.format(db_user_name, db_user_password, db_host, db_port, db_name)
     con = sqlalchemy.create_engine(url, client_encoding='utf8')
     meta = sqlalchemy.MetaData(bind=con, reflect=True)
